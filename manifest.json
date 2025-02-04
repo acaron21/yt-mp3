@@ -1,0 +1,36 @@
+
+
+  {
+    "manifest_version": 3,
+    "name": "YouTube MP3 Downloader",
+    "version": "1.0",
+    "description": "Ajoute une fenêtre flottante sur YouTube pour télécharger l'audio en MP3.",
+    "permissions": ["scripting", "activeTab", "storage"],
+    "host_permissions": ["http://localhost:5000/*", "https://www.youtube.com/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://www.youtube.com/*"],
+        "js": ["content.js"],
+        "css": ["style.css"],
+        "run_at": "document_idle"
+      }
+    ],
+    "web_accessible_resources": [
+  {
+    "resources": [
+      "popup.html",
+      "confirm.html",
+      "modal.html",
+      "usb_icon.png",
+      "icon_no_usb.png",
+      "bootstrap/bootstrap.min.css",
+      "bootstrap/bootstrap.bundle.min.js"
+    ],
+    "matches": ["https://www.youtube.com/*", "*://*/*"]
+  }
+]
+  }
+  
