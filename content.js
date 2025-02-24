@@ -53,8 +53,6 @@ function createFloatingPopup() {
         //     openUSB();
         // });
 
-        console.log("Bootstrap ajouté  caca!")
-
     }).catch(error => console.log("Erreur lors du chargement du popup : ", error));
 }
 
@@ -144,58 +142,6 @@ function confirmDownload(){
             console.log("❌ L'élément #title est introuvable !");
         }
 
-        
-        
-        
-        // // HISTORY LOADING
-        // //get history
-        // let history = null;
-
-        // console.log("RECUPERATION HISTORY");
-        // chrome.runtime.sendMessage({action:"get_history", data:{}}, response =>{
-            
-        //     history = response;
-        //     console.log("History got ! : ", history);
-            
-        //     let tableBody = document.getElementById('t-history');
-        //     if (tableBody){
-        //         console.log("table trouvé");
-        //     }
-
-        //     history.musique.forEach(musique =>{
-        //         let row = document.createElement('tr');
-        //         row.classList.add("cst-font-sm");
-
-        //         row.innerHTML=`<td>${musique.id}</td>
-        //          <td>${musique.title}</td>
-        //          <td>
-        //             <button class="btn btn-primary cst-font-sm me-2">Modifier titre</button>
-        //             <button class="btn btn-danger cst-font-sm">Supprimer</button>
-        //          </td>`;
-        //         tableBody.appendChild(row);
-        //     })
-
-            
-
-        //     console.log("DATE :", history.musique[0].date);
-            // // Vérification avant d'utiliser forEach()
-            // if (history && history.musique && Array.isArray(history.musique)) {
-            //     history.musique.forEach(musique => {
-            //         console.log("🎵 Titre :", musique.title);
-            //     });
-            // } else {
-            //     console.error("❌ Erreur : `musique` est vide ou n'est pas un tableau !");
-            // }
-
-        // });
-
-        // console.log("Test TITLE : ", history.musique[0].title);
-        
-
-        // add to DOM
-
-
-
         // EVENT BOUTON TELECHARGER
         document.getElementById('confirm-dl').addEventListener("click", () => {
             const videoUrl = window.location.href; // lien de la page
@@ -217,7 +163,7 @@ function confirmDownload(){
             options = {
                     "message":"Téléchargement en cours...",
                     "display_button": false,
-                    "bs_background" : "bg-warning"
+                    "bs_background_class" : "bg-warning"
                 };
             createInfoModal(options);
             
@@ -232,7 +178,7 @@ function confirmDownload(){
                     options = {
                         "message":"Téléchargement terminé !",
                         "display_button": true,
-                        "bs_background" : "bg-success"
+                        "bs_background_class" : "bg-success"
                     };
                     createInfoModal(options);
 
@@ -242,7 +188,7 @@ function confirmDownload(){
                     options = {
                         "message":response.error,
                         "display_button": true,
-                        "bs_background" : "bg-danger"
+                        "bs_background_class" : "bg-danger"
                     };
                     createInfoModal(options);
                 }
@@ -296,7 +242,7 @@ function createInfoModal(options){
         document.getElementById('main-message').textContent = options.message;
 
         //change background color
-        document.getElementById('modal-info').classList.add(options.bs_background);
+        document.getElementById('modal-info').classList.add(options.bs_background_class);
 
         //put event to close btn
         btnClose = document.getElementById('btn-close');
@@ -307,12 +253,10 @@ function createInfoModal(options){
 
         //check if btn is displayed
         if (options.display_button === true){
-            btnClose.classList.add('d-block');
-            btnClose.classList.remove('d-none');
+            btnClose.style.display = "block";
         }
         else{
-            btnClose.classList.add('d-none');
-            btnClose.classList.remove('d-block');
+            btnClose.style.display = "none";
         }
 
     });

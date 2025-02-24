@@ -1,0 +1,2 @@
+aria2c : https://aria2.github.io/
+ffmpeg : https://ffmpeg.org/download.html

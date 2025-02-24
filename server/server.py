@@ -7,6 +7,7 @@ import time
 import threading
 import json
 import datetime
+import yt_dlp
 
 app = Flask(__name__)
 
@@ -96,20 +97,36 @@ def download_mp3():
         output_path = os.path.join(USB['usb_path'] , title)
 
         # Commande yt-dlp pour extraire l’audio en MP3
-        command = [
-            "yt-dlp", "-x", "--audio-format", "mp3",
-            "-o", output_path, video_url
-        ]
+        # command = [
+        #     "yt-dlp", "-x", "--audio-format", "mp3",
+        #     "-o", output_path, video_url
+        # ]
 
         print("📥 Début du téléchargement...")
 
         # ✅ Exécuter la commande et attendre la fin
-        result = subprocess.run(command, capture_output=True, text=True)
-        print("📥 Sortie yt-dlp :", result.stdout)
-        print("❌ Erreur yt-dlp :", result.stderr)
+        # result = subprocess.run(command, capture_output=True, text=True)
+        # print("📥 Sortie yt-dlp :", result.stdout)
+        # print("❌ Erreur yt-dlp :", result.stderr)
 
-        if result.returncode != 0:
-            return jsonify({"error": "Erreur lors du téléchargement"}), 500
+        # if result.returncode != 0:
+        #     return jsonify({"error": "Erreur lors du téléchargement"}), 500
+
+        ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': f'{output_path}.%(ext)s',
+        'noplaylist': True,
+        'nocheckcertificate': True,
+        'concurrent_fragment_downloads': 5,  # Accélère le téléchargement
+        'postprocessors': [{  
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '128',  # 128 kbps pour la rapidité et qualité raisonnable
+        }],
+    }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([video_url])
 
         print("✅ Téléchargement terminé :", output_path)
 

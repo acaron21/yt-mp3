@@ -3,6 +3,21 @@
     --danger: #B60009;
 
     --dark-background: #323038;
+    --warning-background : #D3A85D;
+    --success-background: #459245;
+    --danger-background: #BD515E;
+}
+
+.bg-warning{
+    background-color: var(--warning-background);
+}
+
+.bg-success{
+    background-color: var(--success-background);
+}
+
+.bg-danger{
+    background-color: var(--danger-background);
 }
 
 /* #region Native elements */
@@ -62,7 +77,7 @@
 /* #endregion */
 
 /* #region Confirmation download */
-.confirmation-bg{
+.full-bg{
     position: fixed;
     top: 0;
     left: 0;
@@ -105,5 +120,17 @@
 
     padding-top: 20px;
 }
+
+/* #endregion */
+
+/* #region Info Modal */
+#modal-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 50px;
+}
+
 
 /* #endregion */
