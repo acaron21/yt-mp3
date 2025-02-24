@@ -22,10 +22,11 @@
   {
     "resources": [
       "popup.html",
+      "usb_content.html",
       "confirm.html",
       "modal.html",
-      "usb_icon.png",
-      "icon_no_usb.png",
+      "images/*",
+      "history.json",
       "bootstrap/bootstrap.min.css",
       "bootstrap/bootstrap.bundle.min.js"
     ],

@@ -1,27 +1,109 @@
+:root{
+    --success : #488B00;
+    --danger: #B60009;
 
+    --dark-background: #323038;
+}
 
-.cst-btn{
-    min-height: 75px;
-    font-size: 28px !important;
+/* #region Native elements */
+.btn{
+    font-size: 1.8em !important;
+    outline: none;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 0 10px black;
+    color: white;
+    padding: 10px;
+
+    cursor: pointer;
+}
+.success-btn{
+    background-color: var(--success);
+}
+
+.danger-btn{
+    background-color: var(--danger);
+}
+
+/* #endregion */
+
+/* #region MP3 DL EXTENTION */
+.main-ext-container{
+    position: fixed;
+    z-index: 5000;
+    top: 0;
+    left: 100%;
+    transform: translateX(-100%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: auto;
+    height: auto;
+    padding: 15px;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    font-size: 2em !important;
 }
 
 
-.cst-font-xs{
-    font-size: 18px !important;
+
+.usb-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    padding: 4px 20px;
+    border-radius: 10px;
+}
+/* #endregion */
+
+/* #region Confirmation download */
+.confirmation-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 6000;
+
+    width: 100dvw;
+    height: 100dvh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    /* Text */
+    font-size: 2em !important;
+    color: white;
+    
 }
 
-.cst-font-sm{
-    font-size: 22px !important;
+.confirmation-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    border-radius: 8px;
+    padding: 30px;
+
+    background-color: var(--dark-background)
+}
+.confirmation-container > input{
+    font-size: 1.5em;
+    padding: 3px;
 }
 
-.cst-font-md{
-    font-size: 28px !important;
+.confirmation-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding-top: 20px;
 }
 
-.cst-font-lg{
-    font-size: 32px !important;
-}
-
-.cst-font-xl{
-    font-size: 36px !important;
-}
+/* #endregion */

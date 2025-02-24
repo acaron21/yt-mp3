@@ -30,34 +30,9 @@ function createFloatingPopup() {
         style.href = chrome.runtime.getURL("style.css");
         document.head.appendChild(style);
 
-        // Charger Bootstrap CSS
-        let bootstrapCSS = document.createElement("link");
-        bootstrapCSS.rel = "stylesheet";
-        bootstrapCSS.href = chrome.runtime.getURL("bootstrap/bootstrap.min.css");
-        document.head.appendChild(bootstrapCSS);
-
-        // Charger Bootstrap JS (optionnel)
-        let bootstrapJS = document.createElement("script");
-        bootstrapJS.src = chrome.runtime.getURL("bootstrap/bootstrap.bundle.min.js");
-        document.body.appendChild(bootstrapJS);
-
-        // // ajouter logo usb
-        // let imgElement = document.querySelector("img.img-fluid");
-        // if (imgElement) {
-        //     imgElement.src = chrome.runtime.getURL("usb_icon.png");
-        //     console.log("✅ Image USB chargée :", imgElement.src);
-        // } else {
-        //     console.log("❌ L'image USB n'a pas été trouvée !");
-        // }
-
-
         // ajouter un event à mon bouton
         document.getElementById('download-btn').addEventListener("click", () => {
             confirmDownload();
-            console.log("test1");
-            // const videoUrl = window.location.href; // lien de la page
-            // console.log("🎵 Bouton cliqué, envoi de l'URL :", videoUrl);
-            // chrome.runtime.sendMessage({ action: "downloadMp3", url: videoUrl }); // envoyer un message à mon background.js qui écoute les messages
         });
 
 
@@ -73,6 +48,11 @@ function createFloatingPopup() {
         })
         
 
+        //add click event on USB
+        // document.getElementById('div-img-usb').addEventListener("click", ()=>{
+        //     openUSB();
+        // });
+
         console.log("Bootstrap ajouté  caca!")
 
     }).catch(error => console.log("Erreur lors du chargement du popup : ", error));
@@ -83,13 +63,13 @@ function updateUSB(usb_name){
     let imgElement = document.getElementById('img-usb-logo');
     if (usb_name === 'None'){
 
-        imgElement.src = chrome.runtime.getURL("icon_no_usb.png");
+        imgElement.src = chrome.runtime.getURL("images/icon_no_usb.png");
         document.getElementById('download-btn').disabled = true;
         console.log('PAS DE CLE USB ', usb_name);
     }
     else{
         document.getElementById('download-btn').disabled = false;
-        imgElement.src = chrome.runtime.getURL("usb_icon.png");
+        imgElement.src = chrome.runtime.getURL("images/usb_icon.png");
 
         // change color
         let color = ""
@@ -117,18 +97,19 @@ function updateUSB(usb_name){
 
         console.log("color : ", color);
 
-        document.getElementById('div-img-usb').style.cssText += `background-color: #${color} !important;`;
+        document.getElementById('usb-info-container').style.cssText += `background-color: #${color} !important;`;
 
     }
 }   
 
-//fonction pour créer le changement de titre
+//fonction pour créer le popup changement de titre + history
 function confirmDownload(){
-    console.log("test2");
+    console.log("Confirmation de Téléchargement");
     fetch(chrome.runtime.getURL('confirm.html'))
     .then(response => response.text())
     .then(html =>{
 
+        
         //add container
         let confirmDiv = document.createElement("div");
         confirmDiv.id = "confirm-div";
@@ -141,7 +122,7 @@ function confirmDownload(){
             closeConfirmModal();
         });
 
-        // RECUP LE TITRE DE LA VIDEOq
+        // RECUP LE TITRE DE LA VIDEO
         let title = "";
         let titleElement = document.querySelector("#title h1 yt-formatted-string");
         if (titleElement){
@@ -154,16 +135,65 @@ function confirmDownload(){
 
 
         //AJOUTER TITRE AU CHAMP TEXTE
-        setTimeout(() =>{
-            let titleInput = document.getElementById("cst-title");
-            if(titleInput){
-                titleInput.value=title;
-                console.log("Bien mis");
-            }
-            else {
-                console.log("❌ L'élément #title est introuvable !");
-            }
-            }, 100)
+        let titleInput = document.getElementById("cst-title");
+        if(titleInput){
+            titleInput.value=title;
+            console.log("Bien mis");
+        }
+        else {
+            console.log("❌ L'élément #title est introuvable !");
+        }
+
+        
+        
+        
+        // // HISTORY LOADING
+        // //get history
+        // let history = null;
+
+        // console.log("RECUPERATION HISTORY");
+        // chrome.runtime.sendMessage({action:"get_history", data:{}}, response =>{
+            
+        //     history = response;
+        //     console.log("History got ! : ", history);
+            
+        //     let tableBody = document.getElementById('t-history');
+        //     if (tableBody){
+        //         console.log("table trouvé");
+        //     }
+
+        //     history.musique.forEach(musique =>{
+        //         let row = document.createElement('tr');
+        //         row.classList.add("cst-font-sm");
+
+        //         row.innerHTML=`<td>${musique.id}</td>
+        //          <td>${musique.title}</td>
+        //          <td>
+        //             <button class="btn btn-primary cst-font-sm me-2">Modifier titre</button>
+        //             <button class="btn btn-danger cst-font-sm">Supprimer</button>
+        //          </td>`;
+        //         tableBody.appendChild(row);
+        //     })
+
+            
+
+        //     console.log("DATE :", history.musique[0].date);
+            // // Vérification avant d'utiliser forEach()
+            // if (history && history.musique && Array.isArray(history.musique)) {
+            //     history.musique.forEach(musique => {
+            //         console.log("🎵 Titre :", musique.title);
+            //     });
+            // } else {
+            //     console.error("❌ Erreur : `musique` est vide ou n'est pas un tableau !");
+            // }
+
+        // });
+
+        // console.log("Test TITLE : ", history.musique[0].title);
+        
+
+        // add to DOM
+
 
 
         // EVENT BOUTON TELECHARGER
@@ -224,6 +254,29 @@ function confirmDownload(){
     });
 }
 
+function openUSB(){
+    fetch(chrome.runtime.getURL('usb_content.html'))
+    .then(response => response.text())
+    .then(html => {
+        let container = document.createElement('div');
+        container.id = "container-id";
+        container.innerHTML = html;
+        document.body.appendChild(container);
+
+
+        // btn close
+        document.getElementById('btn-usb-close').addEventListener("click", ()=>{
+            let usbContainer = document.getElementById('usb-container');
+            usbContainer.classList.add("fade-out");
+        
+
+            setTimeout(() => {
+                usbContainer.remove();
+            }, 500);
+            
+        });
+    })
+}
 function closeConfirmModal(){
     confirmModal = document.getElementById('confirmation-bg');
     if(confirmModal){confirmModal.remove();}
@@ -265,14 +318,10 @@ function createInfoModal(options){
     });
 }
 
-
-
 function closeInfoModal(){
     infoModal = document.getElementById('modal-info-container');
     if(infoModal){infoModal.remove();}
 }
-
-
 
 // 
 //      OBSERVER POUR LANCER LE POPUP

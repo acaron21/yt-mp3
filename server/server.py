@@ -3,8 +3,14 @@ import psutil
 import win32api
 import os
 import subprocess
+import time
+import threading
+import json
+import datetime
 
 app = Flask(__name__)
+
+history_json = "history.json"
 
 USB = {
     "usb_name" : "",
@@ -14,6 +20,9 @@ USB = {
 musiques = {
     "last_musique": 0
 }
+
+
+# USB FUNCTIONS
 
 def get_usb_drives():
     usb_drives = []
@@ -28,6 +37,28 @@ def get_usb_drives():
             usb_drives.append((volume_name, drive_letter))
     return usb_drives
 
+@app.route('/api/get_usb', methods=['GET'])
+def update_usb():
+    usb_drivers = get_usb_drives()
+
+    response = {
+        'usb_name': 'None',
+        'last_music': ''
+    }
+    l = len(usb_drivers)
+
+    if l==1:
+        USB["usb_name"] = usb_drivers[0][0]
+        USB["usb_path"] = usb_drivers[0][1]
+
+        response['usb_name'] = USB["usb_name"]
+        response['last_music'] = get_last_music(USB["usb_path"])
+        
+    
+    return jsonify(response)
+
+
+# MUSICS FUNCTIONS
 def get_last_music(path):
     max_number = 0  # Valeur par défaut si aucun fichier valide n'est trouvé
 
@@ -92,25 +123,33 @@ def download_mp3():
         return jsonify({"success": False, "error": str(e)})
 
 
-@app.route('/api/get_usb', methods=['GET'])
-def update_usb():
-    usb_drivers = get_usb_drives()
+#DLs HISTORY
+def read_json():
 
-    response = {
-        'usb_name': 'None',
-        'last_music': ''
-    }
-    l = len(usb_drivers)
+    with open(history_json, "r", encoding="utf-8") as file:
+        return json.load(file)
 
-    if l==1:
-        USB["usb_name"] = usb_drivers[0][0]
-        USB["usb_path"] = usb_drivers[0][1]
+def write_json(data):
+    with open(history_json, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
-        response['usb_name'] = USB["usb_name"]
-        response['last_music'] = get_last_music(USB["usb_path"])
-        
-    
-    return jsonify(response)
+
+@app.route('/api/get_history', methods=["GET"])
+def get_history():
+    try:
+        history = read_json()
+        print(history)
+        return jsonify(history)
+    except Exception as e:
+        return jsonify({"errors":str(e)})
+
+
+def add_music_to_history(music):
+    musics = read_json()
+    print("musiques avants : ",musics)
+    musics["musique"].append(music)
+    write_json(musics)
+    print("musiques après : ",musics)
 
 
 

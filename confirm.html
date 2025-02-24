@@ -1,18 +1,19 @@
-<div class="position-fixed container-fluid d-flex justify-content-center align-items-center vh-100 bg-black bg-opacity-75 " id="confirmation-bg" style="z-index: 9910;">
-    <div class="container d-flex flex-column rounded-3 shadow-lg opacity-100 bg-body p-5 text-bg-dark" data-bs-theme="dark">
 
-        <div class="cst-font-xl text-center pb-2 mb-3 border-bottom border-black">Confirmation de téléchargement</div>
+<div class="confirmation-bg" id="confirmation-bg">
+    <div class="confirmation-container" >
 
+        <h1 style="align-self: center;">Confirmation de téléchargement</h1>
+        
         <br>
 
-        <label class="form-label cst-font-sm ms-2" for="title">Titre de la musique</label>
-        <input type="text" id="cst-title" class="form-control cst-font-lg bg-body-secondary ">
+        <label class="" for="title" style="align-self: flex-start;">Titre de la musique</label>
+        <input type="text" id="cst-title" class="" style="width: 100%;">
 
-        <div class="d-flex flex-row justify-content-between mt-5">
-            <button class="btn btn-danger cst-font-md p-5" id="confirm-cancel">Annuler</button>
-            <button class="btn btn-success cst-font-md p-5" id="confirm-dl">Télecharger !</button>
+        <div class="confirmation-footer">
+            <button class="btn danger-btn" id="confirm-cancel">Annuler</button>
+            <button class="btn success-btn" id="confirm-dl">Télecharger !</button>
         </div>
-        
-    </div>  
+    </div>
 </div>
+
 

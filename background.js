@@ -29,5 +29,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       return true;
     }
+
+    if(message.action === "get_history"){
+
+      // get the data
+      fetch("http://localhost:5000/api/get_history")
+      .then(response => response.json())
+      .then(data => {
+        console.log("Données récupérées : ", data);
+        sendResponse(data);
+      }).catch(error => console.error("❌ Erreur de requête :", error));
+
+      return true;
+    }
   });
   
