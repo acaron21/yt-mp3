@@ -121,7 +121,7 @@ def download_mp3():
         'postprocessors': [{  
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '128',  # 128 kbps pour la rapidité et qualité raisonnable
+            'preferredquality': '192',  # 128 kbps pour la rapidité et qualité raisonnable
         }],
     }
 
@@ -172,4 +172,4 @@ def add_music_to_history(music):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run()
