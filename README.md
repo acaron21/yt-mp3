@@ -1,5 +1,6 @@
 <h1>YouTube MP3 Chrome Extension</h1>
-
+![Capture](images/Capture1.PNG)
+![Capture](images/Capture2.PNG)
 <h2>Description</h2>
 <p>Extension Google Chrome pour faciliter le transfert de fichiers MP3 issus de YouTube sur une clé USB.</p>
 
